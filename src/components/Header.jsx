@@ -32,7 +32,7 @@ function Header() {
   ];
   return (
     <div className="flex items-center justify-between gap-4 p-2 bg-slate-900">
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-6 m-2">
         <img src="/images/disneyLogo.png" alt="Disney" className="size-12 md:size-14 object-cover mr-3" />
         <div className="hidden md:flex gap-8">
           {menu.map((item) => (
