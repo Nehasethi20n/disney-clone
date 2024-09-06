@@ -1,20 +1,18 @@
 import "./App.css";
-import Header from "./components/Header";
-import ProductionHouse from "./components/ProductionHouse";
-import Slider from "./components/Slider";
-import GenresList from "./components/GenresList";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import SignIn from "./components/SignIn";
+import Homepage from "./components/Homepage";
 function App() {
   return (
-    <div className="bg-slate-900">
-   {/* <Header/>
-   <Slider/>
-   <ProductionHouse/>
-   <GenresList/> */}
-   <SignIn/>
-    </div>
+    <Router>
+    <Routes>
+      <Route path="/" element={<SignIn />} />
+      <Route path="/homepage" element={<Homepage />} />
+    </Routes>
+  </Router>
    
   );
 }
 
 export default App;
+
