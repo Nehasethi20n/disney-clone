@@ -59,7 +59,7 @@ const Login = ({ setToken }) => {
       <button type="submit" className="mt-10 h-12 bg-blue-700 w-32 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
       </form>
       <div className="mt-3 text-lg font-semibold text-white">
-        Don't have an account?<Link to="/signup">SignUp</Link>
+        Don't have an account?<span className="text-blue-700 ml-2 hover:underline"><Link to="/signup">SignUp</Link></span>
         </div>
       </div>
     </div>
