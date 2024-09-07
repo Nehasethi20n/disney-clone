@@ -1,22 +1,40 @@
-import { useState } from 'react';
-import { supabase } from '../supabase/supabaseClient';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { supabase } from "../supabase/supabaseClient";
 
-const Signin = () => {
-  const [email, setEmail] = useState('');
-  const [isSent, setIsSent] = useState(false);
-  const [loading, setLoading] = useState(false);
+const SignUp = () => {
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    password: "",
+  });
 
-  const sendMagicLink = async () => {
-    setLoading(true);
-    const { error } = await supabase.auth.signInWithOtp({ email });
-    if (error) {
-      console.error('Error sending magic link:', error.message);
-    } else {
-      setIsSent(true);
+  console.log(formData);
+
+  function handleChange(event) {
+    setFormData((prevFormData) => {
+      return {
+        ...prevFormData,
+        [event.target.name]: event.target.value,
+      };
+    });
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    try {
+      // eslint-disable-next-line no-unused-vars
+      const { data, error } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+      });
+      if (error) throw error;
+      alert("Check your email for verification link");
+    } catch (error) {
+      alert(error);
     }
-    setLoading(false);
-  };
-
+  }
   return (
     <div className="grid grid-cols-2 h-screen bg-black">
       <div
@@ -26,32 +44,17 @@ const Signin = () => {
       ></div>
       <div className="ml-36">
         <h1 className="mt-24 text-xl font-semibold text-white">Log in or sign up to continue</h1>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="bg-black border border-gray-300 mt-10 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-72 p-2.5"
-          placeholder="Enter your email"
-        />
-        <h6 className="text-gray-500 text-xs mt-3 ">
-          By proceeding you confirm that you are above 18 years
-          <br /> of age and agree to the Privacy Policy and Terms of use
-        </h6>
-        {email && !isSent && (
-          <button
-            onClick={sendMagicLink}
-            className="mt-10 h-12 bg-blue-700 w-72 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            disabled={loading}
-          >
-            {loading ? 'Sending magic link...' : 'Send Magic Link'}
-          </button>
-        )}
-        {isSent && (
-          <p className="mt-10 text-white">Check your email for the magic link to sign in.</p>
-        )}
+        <form onSubmit={handleSubmit}>
+        <input placeholder="Email" name="email" onChange={handleChange} className="bg-black border border-gray-300 mt-5 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-72 p-2.5"/>
+          <input placeholder="Password" name="password" type="password" onChange={handleChange} className="bg-black border border-gray-300 mt-5 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-72 p-2.5" />
+          <button type="submit" className="mt-10 h-12 bg-blue-700 w-32 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+        </form>
+        <div className="mt-3 text-lg font-semibold text-white">
+        Already have an account?<Link to="/">Login</Link>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Signin;
+export default SignUp;

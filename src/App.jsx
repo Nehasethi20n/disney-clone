@@ -1,19 +1,42 @@
-import "./App.css";
+
+import { useState, useEffect } from 'react';
+import SignUp from './components/SignIn';
+import Login from './components/Login';
+import Homepage from './components/Homepage';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import SignIn from "./components/SignIn";
-import Homepage from "./components/Homepage";
-import HandleMagicLink from "./components/HandleMagicLink";
-function App() {
+
+
+const App = () => {
+
+ const [token, setToken] = useState(false)
+
+  if(token){
+    sessionStorage.setItem('token',JSON.stringify(token))
+  }
+
+  useEffect(() => {
+    if(sessionStorage.getItem('token')){
+      let data = JSON.parse(sessionStorage.getItem('token'))
+      setToken(data)
+    }
+    
+  }, [])
+  
+
+ 
   return (
-    <Router>
+    <div>
+       <Router>
       <Routes>
-        <Route path="/" element={<SignIn />} />
-        <Route path="/magic-link" element={<HandleMagicLink />} />
-        <Route path="/homepage" element={<Homepage />} />
+        <Route path={'/signup'} element={ <SignUp />} />
+        <Route path={'/'} element={ <Login setToken={setToken}/>} />
+        {token?<Route path={'/homepage'} element={ <Homepage token={token} />} />:""}
+
       </Routes>
-    </Router>
-  );
+      </Router>
+    </div>
+  )
 }
 
-export default App;
+export default App
 
