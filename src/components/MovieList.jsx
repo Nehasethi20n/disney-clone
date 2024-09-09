@@ -16,6 +16,7 @@ function MovieList({ genreId, index }) {
   const getMovieByGenre = () => {
     globalApi.getMovieByGenreId(genreId).then((response) => {
       setMovieList(response.data.results);
+      console.log(response.data.results)
     });
   };
   const slideRight = (element) => {
@@ -24,7 +25,6 @@ function MovieList({ genreId, index }) {
   const slideLeft = (element) => {
     element.scrollLeft -= 500;
   };
-  console.log(index)
   return (
     <div className="relative">
        <IoChevronBackOutline onClick={()=>slideLeft(elementRef.current)} 

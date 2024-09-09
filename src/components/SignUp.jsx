@@ -7,8 +7,7 @@ const SignUp = () => {
     email: "",
     password: "",
   });
-
-  console.log(formData);
+  const [error, setError] = useState(null);
 
   function handleChange(event) {
     setFormData((prevFormData) => {
@@ -21,8 +20,12 @@ const SignUp = () => {
 
   async function handleSubmit(e) {
     e.preventDefault();
-
+    if (!formData.email || !formData.password) {
+      setError("Please fill out all fields");
+      return;
+    }
     try {
+      setError(null);
       // eslint-disable-next-line no-unused-vars
       const { data, error } = await supabase.auth.signUp({
         email: formData.email,
@@ -31,7 +34,7 @@ const SignUp = () => {
       if (error) throw error;
       alert("Check your email for verification link");
     } catch (error) {
-      alert(error);
+      setError(error.message);
     }
   }
   return (
@@ -51,6 +54,7 @@ const SignUp = () => {
         <div className="mt-3 text-lg font-semibold text-white">
         Already have an account?<span className="text-blue-700 ml-2 hover:underline"><Link to="/">LogIn</Link></span>
         </div>
+        {error && <p className="text-red-500">{error}</p>}
       </div>
     </div>
   );
