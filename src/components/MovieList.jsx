@@ -1,21 +1,23 @@
-/* eslint-disable no-undef */
-/* eslint-disable react/jsx-key */
+
 /* eslint-disable react/prop-types */
 import globalApi from "../services/globalApi";
-import { useEffect, useState } from "react";
+import { useEffect, useState ,useRef } from "react";
 import { IoChevronBackOutline, IoChevronForwardOutline } from "react-icons/io5";
-import { useRef } from "react";
 import MovieCard from "./MovieCard";
 import HorizontalMovieCard from "./HorizontalMovieCard";
+import SearchComponent from "./Search";
 function MovieList({ genreId, index }) {
   const [movieList, setMovieList] = useState([]);
+  const [filteredMovies, setFilteredMovies] = useState([]);
   const elementRef = useRef(null);
   useEffect(() => {
     getMovieByGenre();
-  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
   const getMovieByGenre = () => {
     globalApi.getMovieByGenreId(genreId).then((response) => {
       setMovieList(response.data.results);
+      setFilteredMovies(response.data.results);
       console.log(response.data.results)
     });
   };
@@ -27,6 +29,7 @@ function MovieList({ genreId, index }) {
   };
   return (
     <div className="relative">
+       <SearchComponent movies={movieList} setFilteredMovies={setFilteredMovies} />
        <IoChevronBackOutline onClick={()=>slideLeft(elementRef.current)} 
          className={`text-[50px] text-white
            p-2 z-10 cursor-pointer 
@@ -34,7 +37,7 @@ function MovieList({ genreId, index }) {
             ${index%3===0?'mt-[80px]':'mt-[150px]'} `}/>
 
       <div ref={elementRef} className="flex overflow-x-auto gap-8 scrollbar-hide pt-5 px-3 pb-5 scroll-smooth">
-        {movieList.map((movie) => (
+        {filteredMovies.map((movie) => (
 
           <>{index % 3 === 0 ? <HorizontalMovieCard movie={movie}/> : <MovieCard movie={movie} />}</>
         ))}

@@ -1,8 +1,9 @@
 /* eslint-disable react/jsx-key */
-import { HiHome, HiMagnifyingGlass, HiStar, HiTv } from "react-icons/hi2";
-import { HiPlus, HiDotsVertical } from "react-icons/hi";
+import { HiHome} from "react-icons/hi2";
+import { HiDotsVertical } from "react-icons/hi";
 import HeaderItem from "./HeaderItem.jsx";
 import { useState } from "react";
+
 function Header() {
   const [toggle, setToggle] = useState(false);
   const handleToggle = () => {
@@ -12,22 +13,6 @@ function Header() {
     {
       icon: HiHome,
       label: "HOME",
-    },
-    {
-      icon: HiMagnifyingGlass,
-      label: "SEARCH",
-    },
-    {
-      icon: HiPlus,
-      label: "WATCHLIST",
-    },
-    {
-      icon: HiStar,
-      label: "ORIGINALS",
-    },
-    {
-      icon: HiTv,
-      label: "SERIES",
     },
   ];
   return (
